@@ -130,52 +130,6 @@ namespace Empa.Presentacion
             }
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            if (dgvProductos.SelectedRows.Count > 0)
-            {
-                int idProducto = Convert.ToInt32(dgvProductos.CurrentRow.Cells["IdProducto"].Value);
-                string nombreProd = dgvProductos.CurrentRow.Cells["NombreProd"].Value.ToString();
-
-                DialogResult respuesta = MessageBox.Show(
-                    $"¿Está seguro de deshabilitar el producto \"{nombreProd}\"?",
-                    "Confirmación (Borrado Lógico)",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (respuesta == DialogResult.Yes)
-                {
-                    string mensajeError;
-                    bool exito = _objetoNegocio.DeshabilitarProducto(idProducto, out mensajeError);
-
-                    if (exito)
-                    {
-                        MessageBox.Show("Producto deshabilitado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LimpiarFormulario();
-                        CargarProductos();
-                        CargarAuditoria();
-                    }
-                    else
-                    {
-                        MessageBox.Show(mensajeError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Seleccione un producto a deshabilitar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
-            LimpiarFormulario();
-        }
-
-        // ============================================================================
-        // GENERACIÓN DE REPORTE PDF (CUMPLIMIENTO ISO 27001)
-        // ============================================================================
         private void btnExportarPDF_Click(object sender, EventArgs e)
         {
             if (dgvAuditoria.Rows.Count == 0)
@@ -194,26 +148,24 @@ namespace Empa.Presentacion
             {
                 try
                 {
-                    Document doc = new Document(PageSize.A4.Rotate(), 20, 20, 20, 20);
+                    iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4.Rotate(), 20f, 20f, 20f, 20f);
                     PdfWriter.GetInstance(doc, new FileStream(guardarPDF.FileName, FileMode.Create));
                     doc.Open();
 
-                    // Encabezado
-                    Font fuenteTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16);
-                    Font fuenteSubtitulo = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+                    iTextSharp.text.Font fuenteTitulo = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 16f);
+                    iTextSharp.text.Font fuenteSubtitulo = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 10f);
 
-                    doc.Add(new Paragraph("REPORTE DE TRAZABILIDAD Y AUDITORÍA (ISO 27001)", fuenteTitulo));
-                    doc.Add(new Paragraph($"Sistema: EmpaCóctel MVP | Fecha de Emisión: {DateTime.Now:dd/MM/yyyy HH:mm:ss}", fuenteSubtitulo));
-                    doc.Add(new Paragraph($"Usuario Generador: {Environment.UserName}\n\n", fuenteSubtitulo));
+                    doc.Add(new iTextSharp.text.Paragraph("REPORTE DE TRAZABILIDAD Y AUDITORÍA (ISO 27001)", fuenteTitulo));
+                    doc.Add(new iTextSharp.text.Paragraph($"Sistema: EmpaCóctel MVP | Fecha de Emisión: {DateTime.Now:dd/MM/yyyy HH:mm:ss}", fuenteSubtitulo));
+                    doc.Add(new iTextSharp.text.Paragraph($"Usuario Generador: {Environment.UserName}\n\n", fuenteSubtitulo));
 
-                    // Tabla de auditoría
                     PdfPTable tabla = new PdfPTable(dgvAuditoria.Columns.Count);
-                    tabla.WidthPercentage = 100;
+                    tabla.WidthPercentage = 100f;
 
                     foreach (DataGridViewColumn columna in dgvAuditoria.Columns)
                     {
-                        PdfPCell celdaHeader = new PdfPCell(new Phrase(columna.HeaderText, FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9)));
-                        celdaHeader.BackgroundColor = BaseColor.LIGHT_GRAY;
+                        PdfPCell celdaHeader = new PdfPCell(new iTextSharp.text.Phrase(columna.HeaderText, iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 9f)));
+                        celdaHeader.BackgroundColor = iTextSharp.text.BaseColor.LightGray;
                         tabla.AddCell(celdaHeader);
                     }
 
@@ -224,7 +176,7 @@ namespace Empa.Presentacion
                             foreach (DataGridViewCell celda in fila.Cells)
                             {
                                 string valor = celda.Value?.ToString() ?? "";
-                                tabla.AddCell(new Phrase(valor, FontFactory.GetFont(FontFactory.HELVETICA, 8)));
+                                tabla.AddCell(new iTextSharp.text.Phrase(valor, iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 8f)));
                             }
                         }
                     }
