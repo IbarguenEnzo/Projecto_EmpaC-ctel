@@ -1,0 +1,24 @@
+# ================= Roslyn & .NET Core / .NET 10 =================
+bin/
+obj/
+[Bb]in/
+[Oo]j/
+
+# ================= Visual Studio User Workspace =================
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# ================= Backup and Cache =================
+_ReSharper*/
+*.rs.user
+*.cache
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ================= OS Specific =================
+.DS_Store
+Thumbs.db
