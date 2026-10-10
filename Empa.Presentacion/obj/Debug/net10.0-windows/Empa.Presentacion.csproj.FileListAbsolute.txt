@@ -1,0 +1,7 @@
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Presentacion\obj\Debug\net10.0-windows\Empa.Presentacion.csproj.AssemblyReference.cache
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Presentacion\obj\Debug\net10.0-windows\Empa.Presentacion.Form1.resources
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Presentacion\obj\Debug\net10.0-windows\Empa.Presentacion.csproj.GenerateResource.cache
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Presentacion\obj\Debug\net10.0-windows\Empa.Presentacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Presentacion\obj\Debug\net10.0-windows\Empa.Presentacion.AssemblyInfoInputs.cache
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Presentacion\obj\Debug\net10.0-windows\Empa.Presentacion.AssemblyInfo.cs
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Presentacion\obj\Debug\net10.0-windows\Empa.Presentacion.csproj.CoreCompileInputs.cache

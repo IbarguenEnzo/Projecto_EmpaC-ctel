@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Empa.Datos/Empa.Datos.csproj" Id="2ab074a7-f0cf-4793-b856-9c298cdfe6e6" />
+  <Project Path="Empa.Negocio/Empa.Negocio.csproj" Id="abd526ca-f989-486a-a31c-764473db8e5f" />
+  <Project Path="Empa.Presentacion/Empa.Presentacion.csproj" />
+</Solution>
