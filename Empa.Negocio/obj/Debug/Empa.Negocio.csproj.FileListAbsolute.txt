@@ -1,0 +1,9 @@
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Negocio\bin\Debug\Empa.Negocio.dll
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Negocio\bin\Debug\Empa.Negocio.pdb
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Negocio\bin\Debug\Empa.Datos.dll
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Negocio\bin\Debug\Empa.Datos.pdb
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Negocio\obj\Debug\Empa.Negocio.csproj.AssemblyReference.cache
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Negocio\obj\Debug\Empa.Negocio.csproj.CoreCompileInputs.cache
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Negocio\obj\Debug\Empa.Neg.09046425.Up2Date
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Negocio\obj\Debug\Empa.Negocio.dll
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Negocio\obj\Debug\Empa.Negocio.pdb

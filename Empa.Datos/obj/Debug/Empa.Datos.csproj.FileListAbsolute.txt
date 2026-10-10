@@ -1,0 +1,6 @@
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Datos\bin\Debug\Empa.Datos.dll
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Datos\bin\Debug\Empa.Datos.pdb
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Datos\obj\Debug\Empa.Datos.csproj.AssemblyReference.cache
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Datos\obj\Debug\Empa.Datos.csproj.CoreCompileInputs.cache
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Datos\obj\Debug\Empa.Datos.dll
+C:\Users\Proyecto EmpaCóctel\EmpaCoctel.MVP\Empa.Datos\obj\Debug\Empa.Datos.pdb
