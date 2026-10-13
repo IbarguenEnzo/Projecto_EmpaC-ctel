@@ -20,9 +20,16 @@ namespace Empa.Presentacion
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            CargarCategorias();
-            CargarProductos();
-            CargarAuditoria();
+            try
+            {
+                CargarCategorias();
+                CargarProductos();
+                CargarAuditoria();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al iniciar: " + ex.Message, "Depuración", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         // ============================================================================
@@ -38,11 +45,13 @@ namespace Empa.Presentacion
 
         private void CargarProductos()
         {
+            dgvProductos.DataSource = null;
             dgvProductos.DataSource = _objetoNegocio.ObtenerProductos();
         }
 
         private void CargarAuditoria()
         {
+            dgvAuditoria.DataSource = null;
             dgvAuditoria.DataSource = _objetoNegocio.ObtenerAuditoria();
         }
 
@@ -61,55 +70,81 @@ namespace Empa.Presentacion
         // ============================================================================
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            string mensajeError;
-
-            if (_esEdicion == false)
+            try
             {
-                // INSERCIÓN
-                bool exito = _objetoNegocio.RegistrarProducto(
-                    txtNombre.Text,
-                    txtPrecio.Text,
-                    txtStock.Text,
-                    cmbCategoria.SelectedValue,
-                    out mensajeError
-                );
-
-                if (exito)
+                // SEGURIDAD DE FLUJO: Si por error _esEdicion está en true pero no hay ID, lo pasamos a false (Registro nuevo)
+                if (_esEdicion && string.IsNullOrWhiteSpace(txtID.Text))
                 {
-                    MessageBox.Show("Producto registrado correctamente en EmpaCóctel.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LimpiarFormulario();
-                    CargarProductos();
-                    CargarAuditoria();
+                    _esEdicion = false;
+                }
+
+                if (cmbCategoria.SelectedValue == null)
+                {
+                    MessageBox.Show("Por favor, seleccione una categoría válida del menú desplegable.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string mensajeError;
+
+                if (_esEdicion == false)
+                {
+                    // --- LÓGICA DE REGISTRO NUEVO ---
+                    bool exito = _objetoNegocio.RegistrarProducto(
+                        txtNombre.Text,
+                        txtPrecio.Text.Trim(),
+                        txtStock.Text.Trim(),
+                        cmbCategoria.SelectedValue,
+                        out mensajeError
+                    );
+
+                    if (exito)
+                    {
+                        MessageBox.Show("Producto registrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LimpiarFormulario();
+                        CargarProductos();
+                        CargarAuditoria();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo registrar el producto: " + mensajeError, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show(mensajeError, "Error de Validación (IEEE 830)", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    // --- LÓGICA DE ACTUALIZACIÓN ---
+                    if (string.IsNullOrWhiteSpace(txtID.Text))
+                    {
+                        MessageBox.Show("Falta el ID para actualizar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    int idProducto = Convert.ToInt32(txtID.Text);
+                    bool exito = _objetoNegocio.ModificarProducto(
+                        idProducto,
+                        txtNombre.Text,
+                        txtPrecio.Text.Trim(),
+                        txtStock.Text.Trim(),
+                        cmbCategoria.SelectedValue,
+                        out mensajeError
+                    );
+
+                    if (exito)
+                    {
+                        MessageBox.Show("Producto actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LimpiarFormulario();
+                        CargarProductos();
+                        CargarAuditoria();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo actualizar el producto: " + mensajeError, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                // ACTUALIZACIÓN
-                int idProducto = Convert.ToInt32(txtID.Text);
-                bool exito = _objetoNegocio.ModificarProducto(
-                    idProducto,
-                    txtNombre.Text,
-                    txtPrecio.Text,
-                    txtStock.Text,
-                    cmbCategoria.SelectedValue,
-                    out mensajeError
-                );
-
-                if (exito)
-                {
-                    MessageBox.Show("Producto modificado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LimpiarFormulario();
-                    CargarProductos();
-                    CargarAuditoria();
-                }
-                else
-                {
-                    MessageBox.Show(mensajeError, "Error de Validación (IEEE 830)", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                MessageBox.Show("Excepción no controlada en el botón: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -128,6 +163,50 @@ namespace Empa.Presentacion
             {
                 MessageBox.Show("Seleccione una fila del catálogo para editar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void btnDeshabilitar_Click(object sender, EventArgs e)
+        {
+            if (dgvProductos.SelectedRows.Count > 0)
+            {
+                // Obtener el ID del producto seleccionado en la grilla
+                int idProducto = Convert.ToInt32(dgvProductos.CurrentRow.Cells["IdProducto"].Value);
+
+                DialogResult resultado = MessageBox.Show(
+                    "¿Estás seguro de que deseas deshabilitar (borrado lógico) este producto?",
+                    "Confirmación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (resultado == DialogResult.Yes)
+                {
+                    string mensajeError;
+                    bool exito = _objetoNegocio.DeshabilitarProducto(idProducto, out mensajeError);
+
+                    if (exito)
+                    {
+                        MessageBox.Show("Producto deshabilitado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LimpiarFormulario();
+                        CargarProductos();
+                        CargarAuditoria();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al deshabilitar: " + mensajeError, "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Seleccione una fila del catálogo para deshabilitar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarFormulario();
+            MessageBox.Show("Formulario limpiado. Listo para registrar un nuevo producto.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnExportarPDF_Click(object sender, EventArgs e)
@@ -155,7 +234,7 @@ namespace Empa.Presentacion
                     iTextSharp.text.Font fuenteTitulo = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 16f);
                     iTextSharp.text.Font fuenteSubtitulo = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 10f);
 
-                    doc.Add(new iTextSharp.text.Paragraph("REPORTE DE TRAZABILIDAD Y AUDITORÍA (ISO 27001)", fuenteTitulo));
+                    doc.Add(new iTextSharp.text.Paragraph("REPORTE DE TRAZABILIDAD Y AUDITORÍA", fuenteTitulo));
                     doc.Add(new iTextSharp.text.Paragraph($"Sistema: EmpaCóctel MVP | Fecha de Emisión: {DateTime.Now:dd/MM/yyyy HH:mm:ss}", fuenteSubtitulo));
                     doc.Add(new iTextSharp.text.Paragraph($"Usuario Generador: {Environment.UserName}\n\n", fuenteSubtitulo));
 
@@ -184,13 +263,18 @@ namespace Empa.Presentacion
                     doc.Add(tabla);
                     doc.Close();
 
-                    MessageBox.Show("Reporte de Auditoría PDF generado con éxito.", "ISO 27001 Compliance", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Reporte de Auditoría PDF generado con éxito.", "Producto registrado correctamente.", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error al generar el PDF: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

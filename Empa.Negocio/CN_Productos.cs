@@ -46,15 +46,29 @@ namespace Empa.Negocio
                 return false;
             }
 
-            // Validar selección de Categoría
-            if (idCategoriaObj == null || !int.TryParse(idCategoriaObj.ToString(), out int idCategoria) || idCategoria <= 0)
+            // Validar selección de Categoría de forma segura
+            int idCategoria = 0;
+            if (idCategoriaObj != null && idCategoriaObj != DBNull.Value)
             {
-                mensajeError = "Debe seleccionar una categoría válida.";
+                int.TryParse(idCategoriaObj.ToString(), out idCategoria);
+            }
+
+            if (idCategoria <= 0)
+            {
+                mensajeError = "Debe seleccionar una categoría válida del listado.";
                 return false;
             }
 
-            // Si todas las validaciones pasan, enviar a la Capa de Datos
-            return _objetoDatos.InsertarProducto(nombre.Trim(), precio, stock, idCategoria);
+            // Envolver la llamada a datos en un try-catch para capturar errores de base de datos
+            try
+            {
+                return _objetoDatos.InsertarProducto(nombre.Trim(), precio, stock, idCategoria);
+            }
+            catch (Exception ex)
+            {
+                mensajeError = "Error en base de datos: " + ex.Message;
+                return false;
+            }
         }
 
         // 4. MODIFICAR PRODUCTO
@@ -86,13 +100,28 @@ namespace Empa.Negocio
                 return false;
             }
 
-            if (idCategoriaObj == null || !int.TryParse(idCategoriaObj.ToString(), out int idCategoria) || idCategoria <= 0)
+            // Validar selección de Categoría de forma segura
+            int idCategoria = 0;
+            if (idCategoriaObj != null && idCategoriaObj != DBNull.Value)
             {
-                mensajeError = "Debe seleccionar una categoría válida.";
+                int.TryParse(idCategoriaObj.ToString(), out idCategoria);
+            }
+
+            if (idCategoria <= 0)
+            {
+                mensajeError = "Debe seleccionar una categoría válida del listado.";
                 return false;
             }
 
-            return _objetoDatos.ActualizarProducto(idProducto, nombre.Trim(), precio, stock, idCategoria);
+            try
+            {
+                return _objetoDatos.ActualizarProducto(idProducto, nombre.Trim(), precio, stock, idCategoria);
+            }
+            catch (Exception ex)
+            {
+                mensajeError = "Error en base de datos: " + ex.Message;
+                return false;
+            }
         }
 
         // 5. DESHABILITAR PRODUCTO (Borrado Lógico)
@@ -106,7 +135,15 @@ namespace Empa.Negocio
                 return false;
             }
 
-            return _objetoDatos.EliminarLogico(idProducto);
+            try
+            {
+                return _objetoDatos.EliminarLogico(idProducto);
+            }
+            catch (Exception ex)
+            {
+                mensajeError = "Error en base de datos: " + ex.Message;
+                return false;
+            }
         }
 
         // 6. OBTENER AUDITORÍA (ISO 27001)

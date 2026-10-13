@@ -42,7 +42,7 @@ namespace Empa.Datos
             return tabla;
         }
 
-        
+
         public bool InsertarProducto(string nombre, int precio, int stock, int idCategoria)
         {
             using (SqlConnection con = _conexion.ObtenerConexion())
@@ -56,12 +56,12 @@ namespace Empa.Datos
                     cmd.Parameters.AddWithValue("@IdCategoria", idCategoria);
 
                     con.Open();
-                    return cmd.ExecuteNonQuery() > 0;
+                    cmd.ExecuteNonQuery();
+                    return true; // Si llegó aquí sin excepciones, la inserción fue exitosa
                 }
             }
         }
 
-        
         public bool ActualizarProducto(int idProducto, string nombre, int precio, int stock, int idCategoria)
         {
             using (SqlConnection con = _conexion.ObtenerConexion())
@@ -76,12 +76,12 @@ namespace Empa.Datos
                     cmd.Parameters.AddWithValue("@IdCategoria", idCategoria);
 
                     con.Open();
-                    return cmd.ExecuteNonQuery() > 0;
+                    cmd.ExecuteNonQuery();
+                    return true; // Si llegó aquí sin excepciones, la actualización fue exitosa
                 }
             }
         }
 
-        
         public bool EliminarLogico(int idProducto)
         {
             using (SqlConnection con = _conexion.ObtenerConexion())
@@ -92,7 +92,8 @@ namespace Empa.Datos
                     cmd.Parameters.AddWithValue("@IdProducto", idProducto);
 
                     con.Open();
-                    return cmd.ExecuteNonQuery() > 0;
+                    cmd.ExecuteNonQuery();
+                    return true; // Si llegó aquí sin excepciones, el borrado lógico fue exitoso
                 }
             }
         }
