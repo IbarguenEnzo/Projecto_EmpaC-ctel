@@ -1,20 +1,15 @@
 USE master;
 GO
 
--- 1. Crear únicamente la nueva BD "EmpaCoctel" si no existe
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'EmpaCoctel')
 BEGIN
     CREATE DATABASE EmpaCoctel;
 END
 GO
 
--- 2. Cambiar de contexto de forma estricta a EmpaCoctel
 USE EmpaCoctel;
 GO
 
--- ============================================================================
--- TABLAS DEL MVP
--- ============================================================================
 CREATE TABLE CATEGORIAS (
     IdCategoria INT IDENTITY(1,1) PRIMARY KEY, 
     NombreCat VARCHAR(50) NOT NULL,
@@ -56,9 +51,7 @@ CREATE TABLE LOG_PRODUCTOS (
 );
 GO
 
--- ============================================================================
 -- TRIGGER
--- ============================================================================
 CREATE TRIGGER tr_AuditoriaProd
 ON PRODUCTOS 
 AFTER INSERT, UPDATE, DELETE 
@@ -114,9 +107,7 @@ BEGIN
 END;
 GO
 
--- ============================================================================
 -- PROCEDIMIENTOS ALMACENADOS
--- ============================================================================
 CREATE PROCEDURE sp_Categorias_Consultar
 AS
 BEGIN

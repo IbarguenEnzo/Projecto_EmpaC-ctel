@@ -23,6 +23,7 @@ namespace Empa.Presentacion
             try
             {
                 CargarCategorias();
+                CargarFiltroCategorias(); // <--- AGREGAR ESTA LÍNEA AQUÍ
                 CargarProductos();
                 CargarAuditoria();
             }
@@ -32,9 +33,7 @@ namespace Empa.Presentacion
             }
         }
 
-        // ============================================================================
-        // MÉTODOS DE CARGA DE DATOS
-        // ============================================================================
+        //MÉTODOS DE CARGA DE DATOS
         private void CargarCategorias()
         {
             cmbCategoria.DataSource = _objetoNegocio.ObtenerCategorias();
@@ -55,6 +54,46 @@ namespace Empa.Presentacion
             dgvAuditoria.DataSource = _objetoNegocio.ObtenerAuditoria();
         }
 
+        // CARGAR EL FILTRO DE CATEGORÍAS CON LA OPCIÓN "VER TODOS"
+        private void CargarFiltroCategorias()
+        {
+            DataTable dtCategorias = _objetoNegocio.ObtenerCategorias();
+            DataTable dtFiltro = dtCategorias.Copy();
+
+            DataRow filaTodas = dtFiltro.NewRow();
+            filaTodas["IdCategoria"] = 0;
+            filaTodas["NombreCat"] = "-- Ver Todos los Productos --";
+
+            dtFiltro.Rows.InsertAt(filaTodas, 0);
+
+            cmbFiltroCategoria.DataSource = dtFiltro;
+            cmbFiltroCategoria.DisplayMember = "NombreCat";
+            cmbFiltroCategoria.ValueMember = "IdCategoria";
+            cmbFiltroCategoria.SelectedIndex = 0;
+        }
+
+        private void cmbFiltroCategoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbFiltroCategoria.SelectedValue == null) return;
+
+            if (int.TryParse(cmbFiltroCategoria.SelectedValue.ToString(), out int idCategoriaSeleccionada))
+            {
+                DataTable dtProductos = _objetoNegocio.ObtenerProductos();
+                DataView dv = dtProductos.DefaultView;
+
+                if (idCategoriaSeleccionada == 0)
+                {
+                    dv.RowFilter = string.Empty;
+                }
+                else
+                {
+                    dv.RowFilter = "IdCategoria = " + idCategoriaSeleccionada;
+                }
+
+                dgvProductos.DataSource = dv;
+            }
+        }
+
         private void LimpiarFormulario()
         {
             txtID.Clear();
@@ -63,11 +102,13 @@ namespace Empa.Presentacion
             txtStock.Clear();
             cmbCategoria.SelectedIndex = -1;
             _esEdicion = false;
+            if (cmbFiltroCategoria.Items.Count > 0)
+            {
+                cmbFiltroCategoria.SelectedIndex = 0;
+            }
         }
 
-        // ============================================================================
-        // BOTONES DE OPERACIÓN (CRUD)
-        // ============================================================================
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
@@ -169,7 +210,7 @@ namespace Empa.Presentacion
         {
             if (dgvProductos.SelectedRows.Count > 0)
             {
-                // Obtener el ID del producto seleccionado en la grilla
+                
                 int idProducto = Convert.ToInt32(dgvProductos.CurrentRow.Cells["IdProducto"].Value);
 
                 DialogResult resultado = MessageBox.Show(

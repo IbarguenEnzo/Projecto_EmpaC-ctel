@@ -57,7 +57,7 @@ namespace Empa.Datos
 
                     con.Open();
                     cmd.ExecuteNonQuery();
-                    return true; // Si llegó aquí sin excepciones, la inserción fue exitosa
+                    return true;
                 }
             }
         }
@@ -77,7 +77,7 @@ namespace Empa.Datos
 
                     con.Open();
                     cmd.ExecuteNonQuery();
-                    return true; // Si llegó aquí sin excepciones, la actualización fue exitosa
+                    return true;
                 }
             }
         }
@@ -93,12 +93,12 @@ namespace Empa.Datos
 
                     con.Open();
                     cmd.ExecuteNonQuery();
-                    return true; // Si llegó aquí sin excepciones, el borrado lógico fue exitoso
+                    return true;
                 }
             }
         }
 
-        // 6. CONSULTAR HISTORIAL DE AUDITORÍA (ISO 27001)
+ 
         public DataTable ListarAuditoria()
         {
             DataTable tabla = new DataTable();

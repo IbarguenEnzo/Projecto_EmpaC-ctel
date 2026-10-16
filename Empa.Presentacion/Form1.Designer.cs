@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            label7 = new Label();
+            cmbFiltroCategoria = new ComboBox();
             panel1 = new Panel();
             label6 = new Label();
             dgvProductos = new DataGridView();
@@ -74,6 +77,8 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(label7);
+            tabPage1.Controls.Add(cmbFiltroCategoria);
             tabPage1.Controls.Add(panel1);
             tabPage1.Controls.Add(dgvProductos);
             tabPage1.Controls.Add(btnLimpiar);
@@ -100,9 +105,30 @@
             tabPage1.UseVisualStyleBackColor = true;
             tabPage1.Click += tabPage1_Click;
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Location = new Point(608, 76);
+            label7.Name = "label7";
+            label7.Size = new Size(118, 15);
+            label7.TabIndex = 17;
+            label7.Text = "Filtrar por Categoría";
+            // 
+            // cmbFiltroCategoria
+            // 
+            cmbFiltroCategoria.FormattingEnabled = true;
+            cmbFiltroCategoria.Location = new Point(563, 94);
+            cmbFiltroCategoria.Name = "cmbFiltroCategoria";
+            cmbFiltroCategoria.Size = new Size(206, 23);
+            cmbFiltroCategoria.TabIndex = 16;
+            cmbFiltroCategoria.SelectedIndexChanged += cmbFiltroCategoria_SelectedIndexChanged;
+            // 
             // panel1
             // 
             panel1.BackColor = Color.MidnightBlue;
+            panel1.BackgroundImage = (Image)resources.GetObject("panel1.BackgroundImage");
+            panel1.BackgroundImageLayout = ImageLayout.None;
             panel1.Controls.Add(label6);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(3, 3);
@@ -128,22 +154,22 @@
             dgvProductos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvProductos.BackgroundColor = Color.White;
             dgvProductos.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = Color.SlateGray;
-            dataGridViewCellStyle9.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle9.ForeColor = Color.White;
-            dataGridViewCellStyle9.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.SlateGray;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductos.EnableHeadersVisualStyles = false;
-            dgvProductos.Location = new Point(264, 68);
+            dgvProductos.Location = new Point(264, 142);
             dgvProductos.MultiSelect = false;
             dgvProductos.Name = "dgvProductos";
             dgvProductos.ReadOnly = true;
             dgvProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProductos.Size = new Size(817, 476);
+            dgvProductos.Size = new Size(817, 402);
             dgvProductos.TabIndex = 14;
             // 
             // btnLimpiar
@@ -154,6 +180,8 @@
             btnLimpiar.FlatStyle = FlatStyle.Flat;
             btnLimpiar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnLimpiar.ForeColor = Color.White;
+            btnLimpiar.Image = (Image)resources.GetObject("btnLimpiar.Image");
+            btnLimpiar.ImageAlign = ContentAlignment.MiddleLeft;
             btnLimpiar.Location = new Point(13, 488);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(199, 23);
@@ -170,6 +198,8 @@
             btnDeshabilitar.FlatStyle = FlatStyle.Flat;
             btnDeshabilitar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnDeshabilitar.ForeColor = Color.White;
+            btnDeshabilitar.Image = (Image)resources.GetObject("btnDeshabilitar.Image");
+            btnDeshabilitar.ImageAlign = ContentAlignment.MiddleLeft;
             btnDeshabilitar.Location = new Point(13, 432);
             btnDeshabilitar.Name = "btnDeshabilitar";
             btnDeshabilitar.Size = new Size(199, 23);
@@ -186,6 +216,8 @@
             btnEditar.FlatStyle = FlatStyle.Flat;
             btnEditar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnEditar.ForeColor = Color.White;
+            btnEditar.Image = (Image)resources.GetObject("btnEditar.Image");
+            btnEditar.ImageAlign = ContentAlignment.MiddleLeft;
             btnEditar.Location = new Point(13, 374);
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(199, 23);
@@ -202,6 +234,8 @@
             btnGuardar.FlatStyle = FlatStyle.Flat;
             btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnGuardar.ForeColor = Color.White;
+            btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
+            btnGuardar.ImageAlign = ContentAlignment.MiddleLeft;
             btnGuardar.Location = new Point(13, 321);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(199, 23);
@@ -318,11 +352,14 @@
             btnExportarPDF.FlatStyle = FlatStyle.Flat;
             btnExportarPDF.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnExportarPDF.ForeColor = Color.White;
-            btnExportarPDF.Location = new Point(896, 534);
+            btnExportarPDF.Image = (Image)resources.GetObject("btnExportarPDF.Image");
+            btnExportarPDF.ImageAlign = ContentAlignment.MiddleLeft;
+            btnExportarPDF.Location = new Point(898, 532);
             btnExportarPDF.Name = "btnExportarPDF";
-            btnExportarPDF.Size = new Size(207, 26);
+            btnExportarPDF.Size = new Size(192, 26);
             btnExportarPDF.TabIndex = 10;
             btnExportarPDF.Text = "Exportar Auditoría a PDF";
+            btnExportarPDF.TextAlign = ContentAlignment.MiddleRight;
             btnExportarPDF.UseVisualStyleBackColor = false;
             btnExportarPDF.Click += btnExportarPDF_Click;
             // 
@@ -333,14 +370,14 @@
             dgvAuditoria.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvAuditoria.BackgroundColor = Color.White;
             dgvAuditoria.BorderStyle = BorderStyle.None;
-            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = Color.DarkSlateGray;
-            dataGridViewCellStyle10.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle10.ForeColor = Color.White;
-            dataGridViewCellStyle10.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = DataGridViewTriState.True;
-            dgvAuditoria.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.DarkSlateGray;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dgvAuditoria.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             dgvAuditoria.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvAuditoria.EnableHeadersVisualStyles = false;
             dgvAuditoria.Location = new Point(7, 6);
@@ -395,5 +432,7 @@
         private Button btnExportarPDF;
         private Panel panel1;
         private Label label6;
+        private ComboBox cmbFiltroCategoria;
+        private Label label7;
     }
 }

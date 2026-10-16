@@ -14,39 +14,39 @@ namespace Empa.Negocio
             return _objetoDatos.ListarProductos();
         }
 
-        // 2. OBTENER LISTA DE CATEGORÍAS (Para el ComboBox)
+        // 2. OBTENER LISTA DE CATEGORÍAS 
         public DataTable ObtenerCategorias()
         {
             return _objetoDatos.ListarCategorias();
         }
 
-        // 3. REGISTRAR PRODUCTO (Validaciones IEEE 830)
+        // 3.REGISTRAR PRODUCTO 
         public bool RegistrarProducto(string nombre, string precioTexto, string stockTexto, object idCategoriaObj, out string mensajeError)
         {
             mensajeError = string.Empty;
 
-            // Validar campos vacíos
+            
             if (string.IsNullOrWhiteSpace(nombre))
             {
                 mensajeError = "El nombre del producto no puede estar vacío.";
                 return false;
             }
 
-            // Validar conversión de Precio
+            
             if (!int.TryParse(precioTexto, out int precio) || precio <= 0)
             {
                 mensajeError = "El precio debe ser un número entero mayor a 0.";
                 return false;
             }
 
-            // Validar conversión de Stock
+            
             if (!int.TryParse(stockTexto, out int stock) || stock < 0)
             {
                 mensajeError = "El stock debe ser un número entero mayor o igual a 0.";
                 return false;
             }
 
-            // Validar selección de Categoría de forma segura
+            
             int idCategoria = 0;
             if (idCategoriaObj != null && idCategoriaObj != DBNull.Value)
             {
